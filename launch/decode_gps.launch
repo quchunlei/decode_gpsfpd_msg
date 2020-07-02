@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<launch>
+
+  <node pkg ="decode_gps" name="decode_gps" type="decode_gps" output="screen">
+    <param name="data_path" value="/home/data/rosbag_data/hryt_0701/hryt_decode_calibration_2020-07-01/"/>
+    <param name="gps_topic" value="/gps"/>
+  </node>
+
+  <!-- Launch rviz with the demo configuration. -->
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find decode_gps)/rviz/decode.rviz" />
+</launch>
