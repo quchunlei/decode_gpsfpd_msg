@@ -19,12 +19,12 @@
  * IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *****************************************************************************
- * @file decode_rtk.cpp
+ * @file decode_gps.cpp
  * @brief
  * @author CHUNLEI_QU
  * @version 1.0.0
- * @date 2019-05-14
- * @copyright Robosense
+ * @date 2019-07-02
+ * @copyright RoboSense
  *****************************************************************************/
 
 #include <ros/ros.h>
@@ -33,6 +33,7 @@
 #include <vector>
 #include <iostream>
 #include <fstream>
+#include <signal.h>
 
 #include <pcl/io/pcd_io.h>
 #include <pcl/point_types.h>
@@ -42,8 +43,8 @@
 
 #include <sensor_msgs/NavSatFix.h>
 #include <sensor_msgs/PointCloud2.h>
-#include "decode_gps/gpfpd.h"
 
+#include "decode_gps/gpfpd.h"
 #include "gps_msg_process.h"
 
 std::ofstream save_total_frame_txt_;
@@ -51,6 +52,15 @@ ros::Subscriber sub_gps_;
 ros::Publisher pub_gps_trajectory_;
 pcl::PointCloud<pcl::PointXYZI> gps_trajectory_;
 std::shared_ptr<robosense::decode::GpsMsgProcess> gps_msg_process_ptr_;
+
+void decodeGpsHandle(int sig)
+{
+  gps_msg_process_ptr_.reset();
+  save_total_frame_txt_.close();
+  sub_gps_.shutdown();
+  pub_gps_trajectory_.shutdown();
+  ros::shutdown();
+}
 
 void publishCloud(const ros::Publisher* in_publisher, pcl::PointCloud<pcl::PointXYZI>& in_cloud_to_publish_ptr)
 {
@@ -94,6 +104,7 @@ void gpsCallback(const decode_gps::gpfpd& gps_msg)
 
 int main(int argc, char* argv[])
 {
+  signal(SIGINT, decodeGpsHandle);
   ros::init(argc, argv, "decode_rtk_node");
   ros::NodeHandle nh;
   ros::NodeHandle pri_nh("~");
@@ -109,7 +120,10 @@ int main(int argc, char* argv[])
 
   sub_gps_ = nh.subscribe(gps_topic, 100, gpsCallback);
 
-  ros::spin();
+  while (ros::ok())
+  {
+    ros::spinOnce();
+  }
 
   return 0;
 }
