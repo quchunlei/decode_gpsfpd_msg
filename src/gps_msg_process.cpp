@@ -145,11 +145,11 @@ bool GpsMsgProcess::xyz2gps(const Eigen::Vector3d& xyz, double& longitude, doubl
     return false;
   }
 
-  if (fabs(xyz.x()) < 0.01 || fabs(xyz.y()) < 0.01)
-  {
-    ERROR << "[>> " << name() << "] XYZ value is smaller than 0.01!" << RESET << END;
-    return false;
-  }
+  // if (fabs(xyz.x()) < 0.01 || fabs(xyz.y()) < 0.01)
+  // {
+  //   ERROR << "[>> " << name() << "] XYZ value is smaller than 0.01!" << RESET << END;
+  //   return false;
+  // }
 
   double rad_lon = gps_origin_[0] / 180 * M_PI;
   double rad_lat = gps_origin_[1] / 180 * M_PI;

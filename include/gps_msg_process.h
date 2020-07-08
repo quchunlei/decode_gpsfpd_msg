@@ -17,8 +17,8 @@
  *
  */
 
-#ifndef RS_decode_GPSMSG_H
-#define RS_decode_GPSMSG_H
+#ifndef RS_DECODE_GPSMSG_H
+#define RS_DECODE_GPSMSG_H
 
 #include <iostream>
 #include <stdio.h>

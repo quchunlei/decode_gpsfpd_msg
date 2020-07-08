@@ -2,8 +2,11 @@
 <launch>
 
   <node pkg ="decode_gps" name="decode_gps" type="decode_gps" output="screen">
-    <param name="data_path" value="/home/data/rosbag_data/hryt_0701/hryt_decode_calibration_2020-07-01/"/>
-    <param name="gps_topic" value="/gps"/>
+    <param name="data_path" value="/home/data/rosbag_data/hryt_0701/hryt_v2r_calibration_2020-07-01/"/>
+    <param name="gps_topic" value="gps"/>
+    <param name="trans_x" value="1.361"/>
+    <param name="trans_y" value="0"/>
+    <param name="trans_z" value="0"/>
   </node>
 
   <!-- Launch rviz with the demo configuration. -->
