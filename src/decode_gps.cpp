@@ -54,6 +54,7 @@ double gps_yaw_origin_ = 0.0;
 float trans_x_ = 0.0;
 float trans_y_ = 0.0;
 float trans_z_ = 0.0;
+
 pcl::PointXYZI gps_point_origin_;
 ros::Subscriber sub_gps_;
 ros::Publisher pub_gps_trajectory_;
